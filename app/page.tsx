@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Loader2, Terminal, Zap, ShieldAlert, Copy, Check } from "lucide-react";
+import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 
 export default function Home() {
   const [videoTitle, setVideoTitle] = useState("");
@@ -10,6 +11,7 @@ export default function Home() {
   const [generatedScript, setGeneratedScript] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [activeMode, setActiveMode] = useState<'shorts' | 'long-form'>('shorts');
+  const {isSignedIn} = useAuth();
 
   const handleCopy = () => {
     if (!generatedScript) return;
@@ -58,9 +60,24 @@ export default function Home() {
       <main className="relative z-10 w-full max-w-4xl px-4 py-12 md:py-20 flex flex-col gap-6 md:gap-10">
         {/* Header */}
         <header className="flex flex-col gap-5 border-b border-[#1f1f1f] pb-8 md:pb-10">
-          <div className="flex items-center gap-3 text-cyan-400">
-            <Terminal className="w-5 h-5 md:w-6 md:h-6" />
-            <span className="text-xs md:text-sm font-bold tracking-widest uppercase">System Core v1.0.0</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-cyan-400">
+              <Terminal className="w-5 h-5 md:w-6 md:h-6" />
+              <span className="text-xs md:text-sm font-bold tracking-widest uppercase">System Core v1.0.0</span>
+            </div>
+            
+            {/* Auth Area */}
+            <div className="flex flex-shrink-0 items-center gap-4">
+              {isSignedIn ? (
+                <div className="p-0.5 rounded-full aspect-square flex-shrink-0 flex items-center justify-center ring-2 ring-cyan-500/30 hover:ring-cyan-400/60 transition-all shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                  <UserButton appearance={{ elements: { userButtonAvatarBox: "w-10 h-10 md:w-12 md:h-12 aspect-square flex-shrink-0" } }} />
+                </div>
+              ) : (
+                <div className="bg-transparent border border-cyan-500/50 text-cyan-400 px-4 py-2 text-xs md:text-sm rounded font-bold uppercase tracking-wider hover:bg-cyan-500/10 hover:border-cyan-400 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)]">
+                  <SignInButton mode="modal" />
+                </div>
+              )}
+            </div>
           </div>
           <h1 className="creator-title">
             The Creator <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">Clone</span>
@@ -74,11 +91,10 @@ export default function Home() {
         <div className="flex w-full border-b border-[#222]">
           <button
             onClick={() => setActiveMode('shorts')}
-            className={`flex-1 py-4 text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 relative ${
-              activeMode === 'shorts' 
-                ? 'text-white' 
+            className={`flex-1 py-4 text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 relative ${activeMode === 'shorts'
+                ? 'text-white'
                 : 'text-[#555] hover:text-[#888]'
-            }`}
+              }`}
           >
             Shorts
             {activeMode === 'shorts' && (
@@ -87,11 +103,10 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveMode('long-form')}
-            className={`flex-1 py-4 text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 relative ${
-              activeMode === 'long-form' 
-                ? 'text-white' 
+            className={`flex-1 py-4 text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 relative ${activeMode === 'long-form'
+                ? 'text-white'
                 : 'text-[#555] hover:text-[#888]'
-            }`}
+              }`}
           >
             Long Form
             {activeMode === 'long-form' && (
@@ -140,6 +155,7 @@ export default function Home() {
           </div>
 
           {/* Generate Button */}
+          {isSignedIn && (
           <button
             onClick={handleGenerate}
             disabled={isGenerating || !videoTitle.trim() || !personalityDna.trim()}
@@ -157,6 +173,7 @@ export default function Home() {
               )}
             </span>
           </button>
+          )}
         </div>
 
         {/* Output Area */}
