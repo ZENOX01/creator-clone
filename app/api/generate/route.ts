@@ -21,7 +21,26 @@ export async function POST(req: NextRequest) {
 
     // Parse the incoming request
     const body = await req.json();
-    const { title, dna, mode } = body;
+    const { title, dna, mode, settings } = body;
+
+    // Unpack optional settings with safe defaults
+    const toneLevel: number = settings?.toneLevel ?? 3;
+    const hookStyle: string = settings?.hookStyle ?? "bold-claim";
+
+    const toneInstruction: Record<number, string> = {
+      1: "Your tone must be extremely chill, relaxed, and conversational — like chatting with a friend.",
+      2: "Your tone should be warm and conversational, easy-going but still engaging.",
+      3: "Your tone should be balanced — natural and conversational, neither too aggressive nor too mellow.",
+      4: "Your tone should be high-energy, punchy, and fast-paced. Create urgency.",
+      5: "Your tone must be SAVAGE — raw, brutally direct, zero sugarcoating. Every word should hit like a fist.",
+    };
+
+    const hookInstruction: Record<string, string> = {
+      "bold-claim":  "HOOK TYPE: Open with an outrageous, counterintuitive bold claim that makes people stop scrolling instantly.",
+      "question":    "HOOK TYPE: Open with a burning question the target audience is secretly asking themselves.",
+      "story":       "HOOK TYPE: Open with a gripping 2-sentence personal story — drop the viewer straight into the scene.",
+      "data":        "HOOK TYPE: Open with a shocking statistic or data point that completely reframes the topic.",
+    };
 
     if (!title || !dna) {
       return NextResponse.json({ error: "Title and DNA are required" }, { status: 400 });
@@ -97,6 +116,10 @@ export async function POST(req: NextRequest) {
       ${dna}
       </CREATOR_DNA>
       
+      TONE SETTINGS (override everything else if there's a conflict):
+      - ${toneInstruction[toneLevel] ?? toneInstruction[3]}
+      - ${hookInstruction[hookStyle] ?? hookInstruction["bold-claim"]}
+      
       RULES FOR THE SCRIPT:
       1. TONE MATCHING: If the DNA is aggressive, be aggressive. If it's analytical, be analytical. DO NOT break character. NEVER use generic AI words like "delve", "testament", "tapestry", "buckle up", or "dive in".
       2. FORMATTING: Use markdown. Bold important words for vocal emphasis during reading.
@@ -106,6 +129,8 @@ export async function POST(req: NextRequest) {
       
       Write the script now. Walk the walk.
     `;
+
+
 
     const result = await model.generateContent(prompt);
     const generatedText = result.response.text();
