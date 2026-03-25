@@ -203,7 +203,15 @@ export default function Dashboard() {
               CREATOR <span className="text-cyan-400">CLONE</span>
             </span>
           </Link>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6">
+            <a 
+              href="https://x.com/ZenoBuildsAI" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm font-semibold text-[#666] hover:text-[#1da1f2] transition-colors"
+            >
+              DM me on X with feature requests
+            </a>
             <button
               onClick={() => setShowSettings(true)}
               className="flex items-center gap-2 text-sm font-semibold text-[#666] hover:text-white transition-colors"
