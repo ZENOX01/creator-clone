@@ -55,11 +55,11 @@ export async function POST(req: NextRequest) {
       .eq('user_id', userId)
       .single();
 
-    // If this is a brand new user who just logged in, create their row and give 3 credits
+    // If this is a brand new user who just logged in, create their row and give 15 credits for the beta
     if (!user) {
       const { data: newUser, error: insertError } = await supabase
         .from('user_credits')
-        .insert([{ user_id: userId }])
+        .insert([{ user_id: userId, credits: 15 }])
         .select()
         .single();
       
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     if (user.credits <= 0) {
       return NextResponse.json(
-        { error: "Out of credits. Upgrade to Pro for unlimited generation." }, 
+        { error: "Beta limit reached! 🚀 Thanks for testing — unlimited Pro tier coming soon." }, 
         { status: 403 }
       );
     }

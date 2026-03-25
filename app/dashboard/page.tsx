@@ -197,27 +197,35 @@ export default function Dashboard() {
       {/* ── NAV ── */}
       <nav className="sticky top-0 z-50 border-b border-white/[0.07] bg-[#080808]/95 backdrop-blur-xl">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Terminal className="w-5 h-5 text-cyan-400" />
-            <span className="text-base font-black tracking-tight">
+            <span className="text-sm sm:text-base font-black tracking-tight hidden xs:block sm:block">
               CREATOR <span className="text-cyan-400">CLONE</span>
             </span>
           </Link>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-6">
             <a 
               href="https://x.com/ZenoBuildsAI" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-sm font-semibold text-[#666] hover:text-[#1da1f2] transition-colors"
+              className="text-xs sm:text-sm font-semibold text-[#666] hover:text-[#1da1f2] transition-colors hidden md:block"
             >
               DM me on X with feature requests
             </a>
+            <a 
+              href="https://x.com/ZenoBuildsAI" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[#666] hover:text-[#1da1f2] md:hidden p-1"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.873 11.633Z"/></svg>
+            </a>
             <button
               onClick={() => setShowSettings(true)}
-              className="flex items-center gap-2 text-sm font-semibold text-[#666] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-[#666] hover:text-white transition-colors"
             >
               <Settings className="w-4 h-4" />
-              Settings
+              <span className="hidden sm:inline">Settings</span>
             </button>
             <div className="w-px h-6 bg-white/[0.08]" />
             {isSignedIn && (
@@ -317,11 +325,11 @@ export default function Dashboard() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10 relative z-10">
 
         {/* Page Heading */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold tracking-tight">
+        <div className="mb-8 sm:mb-10 text-center sm:text-left">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Script <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Studio</span>
           </h1>
-          <p className="text-base text-[#666] mt-2">Generate scripts that sound exactly like you. Input → DNA → Fire.</p>
+          <p className="text-sm sm:text-base text-[#666] mt-2">Generate scripts that sound exactly like you. Input → DNA → Fire.</p>
         </div>
 
         {/* Two-Column Layout */}
@@ -365,26 +373,26 @@ export default function Dashboard() {
 
             {/* Personality DNA */}
             <div className="flex flex-col gap-2.5">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <label className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#888]">
                   <ShieldAlert className="w-4 h-4 text-amber-500" />
                   Personality DNA
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                   {isDnaLoaded && (
-                    <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1 duration-500">
+                    <span className="text-[10px] sm:text-xs font-bold text-emerald-400 flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1 duration-500">
                       <Check className="w-3.5 h-3.5" />
-                      Saved Personality Loaded
+                      Loaded
                     </span>
                   )}
-                  <span className={`text-sm font-bold tabular-nums ${personalityDna.length > 850 ? "text-red-400" : "text-[#555]"}`}>
+                  <span className={`text-xs sm:text-sm font-bold tabular-nums ${personalityDna.length > 850 ? "text-red-400" : "text-[#555]"}`}>
                     {personalityDna.length}/1000
                   </span>
                 </div>
               </div>
 
               {/* Auto-Extract Row */}
-              <div className="flex gap-2.5">
+              <div className="flex flex-col sm:flex-row gap-2.5">
                 <input
                   type="text"
                   value={youtubeUrl}
@@ -469,26 +477,26 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#555]">
                 <Terminal className="w-4 h-4" />
-                Generated Script
+                <span className="hidden xs:inline">Generated Script</span>
               </div>
               {generatedScript && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-white/[0.09] hover:border-white/25 hover:bg-white/[0.05] transition-all"
+                    className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-sm font-bold uppercase tracking-widest px-3 sm:px-4 py-2 rounded-xl border border-white/[0.09] hover:border-white/25 hover:bg-white/[0.05] transition-all"
                     title="Download as .txt"
                   >
-                    <Download className="w-4 h-4 text-[#666]" />
-                    <span className="text-[#666]">Download</span>
+                    <Download className="w-3 h-3 sm:w-4 sm:h-4 text-[#666]" />
+                    <span className="text-[#666] hidden sm:inline">Download</span>
                   </button>
                   <button
                     onClick={handleCopy}
-                    className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-white/[0.09] hover:border-white/25 hover:bg-white/[0.05] transition-all"
+                    className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-sm font-bold uppercase tracking-widest px-3 sm:px-4 py-2 rounded-xl border border-white/[0.09] hover:border-white/25 hover:bg-white/[0.05] transition-all"
                   >
                     {isCopied ? (
-                      <><Check className="w-4 h-4 text-emerald-400" /><span className="text-emerald-400">Copied!</span></>
+                      <><Check className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" /><span className="text-emerald-400">Copied!</span></>
                     ) : (
-                      <><Copy className="w-4 h-4 text-[#666]" /><span className="text-[#666]">Copy</span></>
+                      <><Copy className="w-3 h-3 sm:w-4 sm:h-4 text-[#666]" /><span className="text-[#666] hidden sm:inline">Copy</span></>
                     )}
                   </button>
                 </div>
@@ -496,7 +504,7 @@ export default function Dashboard() {
             </div>
 
             {/* Output Box */}
-            <div className={`min-h-[540px] rounded-xl border transition-all duration-300 overflow-hidden flex flex-col ${generatedScript
+            <div className={`min-h-[500px] sm:min-h-[540px] w-full max-w-[100vw] sm:max-w-none rounded-xl border transition-all duration-300 overflow-hidden flex flex-col ${generatedScript
                 ? "border-zinc-800 bg-[#111111]"
                 : "border-dashed border-zinc-800/60 bg-transparent"
               }`}>
