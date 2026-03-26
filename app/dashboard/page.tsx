@@ -78,6 +78,7 @@ export default function Dashboard() {
   const [generatedScript, setGeneratedScript] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [activeMode, setActiveMode] = useState<"shorts" | "long-form">("shorts");
+  const [credits, setCredits] = useState<number | null>(null);
   const { isSignedIn } = useAuth();
 
   // Tone extractor state
@@ -88,7 +89,7 @@ export default function Dashboard() {
 
   // Load user's saved Supabase profile
   useEffect(() => {
-    async function loadSavedDna() {
+    async function loadProfile() {
       try {
         const res = await fetch("/api/user-profile");
         if (!res.ok) return;
@@ -99,12 +100,15 @@ export default function Dashboard() {
           // Auto-hide the success indicator after 5 seconds to keep the UI sleek
           setTimeout(() => setIsDnaLoaded(false), 5000);
         }
+        if (data.credits !== null && data.credits !== undefined) {
+          setCredits(data.credits);
+        }
       } catch (err) {
-        console.error("Failed to load saved DNA", err);
+        console.error("Failed to load profile", err);
       }
     }
     if (isSignedIn) {
-      loadSavedDna();
+      loadProfile();
     }
   }, [isSignedIn]);
 
@@ -180,6 +184,8 @@ export default function Dashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to generate script");
       setGeneratedScript(data.script);
+      // Decrement credit count optimistically after a successful generation
+      setCredits(prev => (prev !== null ? Math.max(0, prev - 1) : null));
     } catch (e) {
       setGeneratedScript(`ERROR: ${e instanceof Error ? e.message : "Connection failed"}`);
     } finally {
@@ -220,6 +226,18 @@ export default function Dashboard() {
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.873 11.633Z"/></svg>
             </a>
+            {/* Credit counter */}
+            {isSignedIn && credits !== null && (
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold tabular-nums border ${
+                credits <= 3
+                  ? "border-red-500/30 bg-red-500/10 text-red-400"
+                  : "border-cyan-500/20 bg-cyan-500/10 text-cyan-400"
+              }`}>
+                <Zap className="w-3 h-3" />
+                <span className="hidden sm:inline">{credits} credit{credits !== 1 ? "s" : ""} left</span>
+                <span className="sm:hidden">{credits}</span>
+              </div>
+            )}
             <button
               onClick={() => setShowSettings(true)}
               className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-[#666] hover:text-white transition-colors"

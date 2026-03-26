@@ -17,19 +17,19 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from('user_credits')
-      .select('saved_dna')
+      .select('saved_dna, credits')
       .eq('user_id', userId)
       .single();
 
     if (error) {
        // if PGRST116 (0 rows), user doesn't exist yet, return null
        if (error.code === 'PGRST116') {
-         return NextResponse.json({ saved_dna: null });
+         return NextResponse.json({ saved_dna: null, credits: null });
        }
        throw error;
     }
 
-    return NextResponse.json({ saved_dna: data?.saved_dna || null });
+    return NextResponse.json({ saved_dna: data?.saved_dna || null, credits: data?.credits ?? null });
   } catch (error) {
     console.error("[USER_PROFILE_GET_ERROR]", error);
     return NextResponse.json(
