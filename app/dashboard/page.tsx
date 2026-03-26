@@ -87,19 +87,13 @@ export default function Dashboard() {
   const [analyzeError, setAnalyzeError] = useState("");
   const [isDnaLoaded, setIsDnaLoaded] = useState(false);
 
-  // Load user's saved Supabase profile
+  // Load user's credit balance from Supabase
   useEffect(() => {
     async function loadProfile() {
       try {
         const res = await fetch("/api/user-profile");
         if (!res.ok) return;
         const data = await res.json();
-        if (data.saved_dna) {
-          setPersonalityDna(data.saved_dna);
-          setIsDnaLoaded(true);
-          // Auto-hide the success indicator after 5 seconds to keep the UI sleek
-          setTimeout(() => setIsDnaLoaded(false), 5000);
-        }
         if (data.credits !== null && data.credits !== undefined) {
           setCredits(data.credits);
         }
