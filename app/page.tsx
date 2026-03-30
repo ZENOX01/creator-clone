@@ -4,7 +4,7 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Terminal, Zap, ShieldAlert, Cpu, Sparkles, Youtube, ArrowRight, Check } from "lucide-react";
-import { Tweet } from "react-tweet";
+import Script from "next/script";
 
 export default function LandingPage() {
   const { isSignedIn } = useAuth();
@@ -87,8 +87,11 @@ export default function LandingPage() {
         <div className="w-full max-w-lg mt-28 mb-4">
           <p className="text-xs font-bold uppercase tracking-widest text-[#555] mb-6">See it in action</p>
           <div className="w-full rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-transparent flex justify-center [&>div]:max-w-none">
-            <div data-theme="dark" className="w-full flex justify-center">
-              <Tweet id="2037355172679315688" />
+            <div className="w-full flex justify-center">
+              <blockquote className="twitter-tweet" data-theme="dark">
+                <a href="https://twitter.com/ZenoBuildsAI/status/2037355172679315688"></a>
+              </blockquote>
+              <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
             </div>
           </div>
         </div>
