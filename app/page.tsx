@@ -4,6 +4,7 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Terminal, Zap, ShieldAlert, Cpu, Sparkles, Youtube, ArrowRight, Check } from "lucide-react";
+import { Tweet } from "react-tweet";
 
 export default function LandingPage() {
   const { isSignedIn } = useAuth();
@@ -63,7 +64,7 @@ export default function LandingPage() {
           You already have a unique voice. Creator Clone extracts your exact personality DNA from any YouTube video and writes scripts that sound <span className="text-white font-bold">genuinely like you</span> — not like ChatGPT had a caffeine overdose.
         </p>
         <p className="text-sm text-[#555] max-w-lg mb-10 leading-relaxed">
-          No templates. No corporate tone. No "Welcome back to my channel." Just raw, retention-engineered scripts built around how <em>you</em> actually talk.
+          No templates. No corporate tone. No &quot;Welcome back to my channel.&quot; Just raw, retention-engineered scripts built around how <em>you</em> actually talk.
         </p>
 
         {/* CTA */}
@@ -82,8 +83,18 @@ export default function LandingPage() {
 
         <p className="mt-4 text-xs text-[#444] uppercase tracking-widest">Free to start. No credit card required.</p>
 
+        {/* ── SEE IT IN ACTION ── */}
+        <div className="w-full max-w-lg mt-28 mb-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#555] mb-6">See it in action</p>
+          <div className="w-full rounded-2xl overflow-hidden border border-[#1a1a1a] shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-transparent flex justify-center [&>div]:max-w-none">
+            <div data-theme="dark" className="w-full flex justify-center">
+              <Tweet id="2037355172679315688" />
+            </div>
+          </div>
+        </div>
+
         {/* ── HOW IT WORKS ── */}
-        <div className="w-full max-w-3xl mt-28 mb-4">
+        <div className="w-full max-w-3xl mt-16 mb-4">
           <p className="text-xs font-bold uppercase tracking-widest text-[#555] mb-10">How it works — 3 steps, 60 seconds</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
 

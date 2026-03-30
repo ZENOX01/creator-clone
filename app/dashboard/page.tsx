@@ -559,7 +559,7 @@ export default function Dashboard() {
                 {activeMode === "shorts" ? <Zap className="w-3.5 h-3.5 text-cyan-500" /> : <FileText className="w-3.5 h-3.5 text-purple-400" />}
                 Generated as <span className="text-[#777] font-bold">{activeMode === "shorts" ? "Short-form" : "Long-form"}</span>
                 <span className="text-[#333]">·</span>
-                <span className="text-[#555]">Tone: {toneLabels[toneLevel]}</span>
+                <span className="text-[#555]">Tone  : {toneLabels[toneLevel]}</span>
               </div>
             )}
           </div>
