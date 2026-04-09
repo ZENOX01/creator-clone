@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     // Parse the incoming request
     const body = await req.json();
-    const { title, dna, mode, settings } = body;
+    const { title, outline, dna, mode, settings } = body;
 
     // Unpack optional settings with safe defaults
     const toneLevel: number = settings?.toneLevel ?? 3;
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     // PHASE 4: THE ENGINE (Your AI Logic)
     // ---------------------------------------------------------
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Fast and cheap for SaaS
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // More stable capacity for SaaS
 
     const formatInstructions = mode === 'long-form' 
       ? `
@@ -111,6 +111,11 @@ export async function POST(req: NextRequest) {
       
       TITLE/CONCEPT: "${title}"
       
+      CORE IDEAS & BRAIN DUMP:
+      <BRAIN_DUMP>
+      ${outline || "No specific bullet points provided. Create a highly engaging original script based on the title."}
+      </BRAIN_DUMP>
+      
       CRITICAL INSTRUCTION: You MUST embody the specific personality, tone, vocabulary, and pacing of the provided "Creator DNA":
       <CREATOR_DNA>
       ${dna}
@@ -121,9 +126,10 @@ export async function POST(req: NextRequest) {
       - ${hookInstruction[hookStyle] ?? hookInstruction["bold-claim"]}
       
       RULES FOR THE SCRIPT:
-      1. TONE MATCHING: If the DNA is aggressive, be aggressive. If it's analytical, be analytical. DO NOT break character. NEVER use generic AI words like "delve", "testament", "tapestry", "buckle up", or "dive in".
-      2. FORMATTING: Use markdown. Bold important words for vocal emphasis during reading.
-      3. SCRIPTING CUES: Provide instructions for the editor using brackets like [B-ROLL: ...], [VFX: ...], [SFX: ...].
+      1. SCRIPT CONTEXT: You must base the core messaging of the script entirely on the <BRAIN_DUMP> provided above. Do not hallucinate random facts. Just turn the messy ideas into an incredible script.
+      2. TONE MATCHING: If the DNA is aggressive, be aggressive. If it's analytical, be analytical. DO NOT break character. NEVER use generic AI words like "delve", "testament", "tapestry", "buckle up", or "dive in".
+      3. FORMATTING: Use markdown. Bold important words for vocal emphasis during reading.
+      4. SCRIPTING CUES: Provide instructions for the editor using brackets like [B-ROLL: ...], [VFX: ...], [SFX: ...].
       
       ${formatInstructions}
       

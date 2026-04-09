@@ -21,6 +21,7 @@
 
 - **Framework:** [Next.js 15](https://nextjs.org/) (App Router, Turbopack)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
 - **Authentication:** [Clerk](https://clerk.com/)
 - **Database / Credit System:** [Supabase](https://supabase.com/)
 - **AI Model:** [Google Gemini API](https://aistudio.google.com/) (`gemini-2.5-flash`)

@@ -75,3 +75,8 @@ body {
 .output-border {
   @apply absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-cyan-500 via-blue-500 to-transparent;
 }
+
+@keyframes shimmer {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
