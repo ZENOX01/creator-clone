@@ -177,7 +177,7 @@ export default function LandingPage() {
           <div className="w-full relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(255,255,255,0.05)] bg-[#050505] flex justify-center group">
             {/* Native Video Embed inside sleek framer wrapper */}
             <video 
-              src="/demo-video.mp4" 
+              src="https://cmrhykhdgykmvsfeqdho.supabase.co/storage/v1/object/public/media/website%20video.mp4" 
               controls
               playsInline 
               className="w-full h-auto object-cover outline-none" 
